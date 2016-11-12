@@ -1,15 +1,14 @@
 package com.letgo.twitter.web.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-public class HealthController extends Controller {
+import javax.inject.Singleton;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(HealthController.class);
+@Singleton
+public class HealthController extends Controller {
 
   public Result healthCheck() {
     JsonNode response = Json.toJson(new HealthResponse("ok"));
