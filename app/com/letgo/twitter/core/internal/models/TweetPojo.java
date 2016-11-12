@@ -15,7 +15,7 @@ public class TweetPojo implements Tweet {
 
   public TweetPojo(String message, Date createdAt) {
     this.message = message;
-    this.createdAt = createdAt;
+    this.createdAt = new Date(createdAt.getTime());
   }
 
   @Override
@@ -30,11 +30,11 @@ public class TweetPojo implements Tweet {
 
   @Override
   public Date getCreatedAt() {
-    return createdAt;
+    return new Date(createdAt.getTime());
   }
 
   public Tweet setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
+    this.createdAt = new Date(createdAt.getTime());
     return this;
   }
 }
