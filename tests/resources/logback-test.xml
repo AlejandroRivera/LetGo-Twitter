@@ -5,7 +5,7 @@
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%coloredLevel %logger{15} - %message%n%xException{10}</pattern>
+      <pattern>%yellow(%date{yyyy-MM-dd'T'HH:mm:ss.SSSZ}) %highlight(%-5level) %gray(twitter_app@${HOSTNAME}) %green(%15.15thread) %cyan(%logger{5}) - %msg%n</pattern>
     </encoder>
   </appender>
 
