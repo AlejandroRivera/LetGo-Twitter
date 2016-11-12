@@ -10,9 +10,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Test;
 import play.libs.Json;
 import play.mvc.Result;
-import play.test.WithApplication;
 
-public class HealthControllerTest extends WithApplication {
+public class HealthControllerTest extends IntegrationTest {
 
   @Test
   public void testHealthCheck() {
