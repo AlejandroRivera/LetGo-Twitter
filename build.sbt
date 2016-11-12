@@ -10,7 +10,10 @@ scalaVersion := "2.11.7"
 
 libraryDependencies ++= Seq(
   cache,
-  javaWs
+  javaWs,
+  "org.mockito"         % "mockito-core"  % "1.10.19" % "it,test",
+  "junit"               % "junit"         % "4.12"    % "it",
+  "com.typesafe.play"   %% "play-test"    % play.core.PlayVersion.current % "it"
 )
 
 resolvers ++= Seq(
