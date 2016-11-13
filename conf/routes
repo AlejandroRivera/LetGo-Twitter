@@ -3,4 +3,4 @@
 # ~~~~
 
 GET   /health                     com.letgo.twitter.web.controllers.HealthController.healthCheck()
-GET   /twitter/:username/tweets   com.letgo.twitter.web.controllers.TweetsController.findTweets(username: String, page_size: Integer?=10)
+GET   /twitter/:username/tweets   com.letgo.twitter.web.controllers.TweetsController.findTweets(username: String, max_tweets: Integer?=10)
