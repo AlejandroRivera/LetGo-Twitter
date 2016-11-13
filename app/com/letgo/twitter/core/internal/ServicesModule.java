@@ -15,4 +15,5 @@ public class ServicesModule extends AbstractModule {
   protected void configure() {
     bind(TweetsFetcher.class).to(TweetsFetcherImpl.class);
   }
+
 }

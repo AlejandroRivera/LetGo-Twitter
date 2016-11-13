@@ -6,6 +6,8 @@ import static play.test.Helpers.contentAsString;
 import static play.test.Helpers.fakeRequest;
 import static play.test.Helpers.route;
 
+import com.letgo.twitter.IntegrationTest;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Test;
 import play.libs.Json;

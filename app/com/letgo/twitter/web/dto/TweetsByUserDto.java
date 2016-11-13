@@ -1,14 +1,12 @@
 package com.letgo.twitter.web.dto;
 
-import com.letgo.twitter.core.api.models.Tweet;
-
 import java.util.List;
 
 public class TweetsByUserDto {
   private String username;
-  private List<Tweet> tweets;
+  private List<TweetDto> tweets;
 
-  public TweetsByUserDto(String username, List<Tweet> tweets) {
+  public TweetsByUserDto(String username, List<TweetDto> tweets) {
     this.username = username;
     this.tweets = tweets;
   }
@@ -22,11 +20,11 @@ public class TweetsByUserDto {
     return this;
   }
 
-  public List<Tweet> getTweets() {
+  public List<TweetDto> getTweets() {
     return tweets;
   }
 
-  public TweetsByUserDto setTweets(List<Tweet> tweets) {
+  public TweetsByUserDto setTweets(List<TweetDto> tweets) {
     this.tweets = tweets;
     return this;
   }

@@ -3,6 +3,7 @@ package com.letgo.twitter.web.controllers;
 import com.letgo.twitter.core.api.models.Tweet;
 import com.letgo.twitter.core.api.services.FetchTweetsRequest;
 import com.letgo.twitter.core.api.services.TweetsFetcher;
+import com.letgo.twitter.web.dto.TweetDto;
 import com.letgo.twitter.web.dto.TweetsByUserDto;
 
 import com.google.inject.Inject;
@@ -12,6 +13,7 @@ import play.mvc.Result;
 
 import java.util.List;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 public class TweetsController extends Controller {
 
@@ -30,12 +32,18 @@ public class TweetsController extends Controller {
     request.setPageSize(pageSize);
 
     CompletionStage<List<Tweet>> tweetsFuture = tweetsFetcher.getTweetsByUser(request);
-    return tweetsFuture.thenApply(
-        tweets -> {
-          TweetsByUserDto response = new TweetsByUserDto(username, tweets);
+    return tweetsFuture
+        .thenApplyAsync(this::mapToDtos)
+        .thenApply(dtoTweets -> {
+          TweetsByUserDto response = new TweetsByUserDto(username, dtoTweets);
           return ok(Json.toJson(response));
-        }
-    );
+        });
+  }
+
+  private List<TweetDto> mapToDtos(List<Tweet> tweets) {
+    return tweets.stream()
+        .map(TweetDto::fromTweet)
+        .collect(Collectors.toList());
   }
 
 }

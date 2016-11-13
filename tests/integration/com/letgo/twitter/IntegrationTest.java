@@ -1,4 +1,4 @@
-package com.letgo.twitter.web.controllers;
+package com.letgo.twitter;
 
 import com.google.inject.Module;
 import play.Application;
@@ -12,7 +12,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-abstract class IntegrationTest extends WithApplication {
+public abstract class IntegrationTest extends WithApplication {
 
   @Override
   protected Application provideApplication() {
