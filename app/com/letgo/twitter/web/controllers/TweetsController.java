@@ -12,9 +12,7 @@ import play.mvc.Result;
 
 import java.util.List;
 import java.util.concurrent.CompletionStage;
-import javax.inject.Singleton;
 
-@Singleton
 public class TweetsController extends Controller {
 
   private final TweetsFetcher tweetsFetcher;

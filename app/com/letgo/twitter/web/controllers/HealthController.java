@@ -5,9 +5,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import javax.inject.Singleton;
-
-@Singleton
 public class HealthController extends Controller {
 
   public Result healthCheck() {
