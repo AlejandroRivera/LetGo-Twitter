@@ -4,7 +4,7 @@ import de.johoop.jacoco4sbt._
 jacoco.settings
 itJacoco.settings
 
-val thresholds: Thresholds = Thresholds(instruction = 50, method = 50, branch = 50, complexity = 50, line = 50, clazz = 50)
+val thresholds: Thresholds = Thresholds(instruction = 85, method = 83, branch = 55, complexity = 75, line = 84, clazz = 100)
 val excludes: Seq[String] = Seq("*views*", "*Routes*", "*models*",
                                 "*controllers*routes*", "*controllers*Reverse*", "*controllers*javascript*", "*controller*ref*")
 
