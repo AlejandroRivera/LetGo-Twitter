@@ -2,5 +2,5 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET   /health                     com.letgo.twitter.web.controllers.HealthController.healthCheck()
-GET   /twitter/:username/tweets   com.letgo.twitter.web.controllers.TweetsController.findTweets(username: String, max_tweets: Integer?=10)
+GET   /health                           com.letgo.twitter.web.controllers.HealthController.healthCheck()
+GET   /twitter/users/:username/tweets   com.letgo.twitter.web.controllers.TweetsController.findTweets(username: String, max_tweets: Integer?=10)

@@ -67,7 +67,8 @@ public class TweetsControllerTest extends IntegrationTest {
   public void testRequest() throws ParseException {
     String username = RandomStringUtils.randomAlphabetic(5);
     int pageSize = new Random().nextInt(100);
-    Result result = Helpers.route(app, Helpers.fakeRequest("GET", "/twitter/" + username + "/tweets?page_size=" + pageSize));
+    String uri = "/twitter/users/" + username + "/tweets?max_tweets=" + pageSize;
+    Result result = Helpers.route(app, Helpers.fakeRequest("GET", uri));
     assertThat(result.status(), equalTo(200));
     assertThat(result.contentType().get(), equalTo("application/json"));
 
