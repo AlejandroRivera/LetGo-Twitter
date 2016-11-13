@@ -24,6 +24,7 @@
 
   <logger name="play" level="INFO" />
   <logger name="com.letgo" level="INFO" />
+  <logger name="com.letgo.twitter.core.internal.dao.InMemoryCachedTweetsRepository" level="DEBUG" />
 
   <root level="WARN">
     <appender-ref ref="ASYNCFILE" />

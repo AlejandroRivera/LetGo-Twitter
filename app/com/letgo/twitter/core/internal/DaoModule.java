@@ -1,6 +1,7 @@
 package com.letgo.twitter.core.internal;
 
 import com.letgo.twitter.core.api.dao.TweetsRepository;
+import com.letgo.twitter.core.internal.dao.InMemoryCachedTweetsRepository;
 import com.letgo.twitter.core.internal.dao.Twitter4jRepository;
 
 import com.google.inject.AbstractModule;
@@ -19,7 +20,7 @@ public class DaoModule extends AbstractModule {
 
   @Override
   protected void configure() {
-    bind(TweetsRepository.class).to(Twitter4jRepository.class);
+    bind(TweetsRepository.class).toProvider(TweetsRepositoryProvider.class);
     bind(Twitter.class).toProvider(TwitterClientProvider.class);
   }
 
@@ -27,10 +28,10 @@ public class DaoModule extends AbstractModule {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DaoModule.class);
 
-    static final String ACCESS_TOKEN_KEY = "twitter.client_app.access_token.token";
-    static final String ACCESS_SECRET_KEY = "twitter.client_app.access_token.secret";
-    static final String CONSUMER_KEY = "twitter.client_app.consumer.key";
-    static final String CONSUMER_SECRET = "twitter.client_app.consumer.secret";
+    private static final String ACCESS_TOKEN_KEY = "twitter.client_app.access_token.token";
+    private static final String ACCESS_SECRET_KEY = "twitter.client_app.access_token.secret";
+    private static final String CONSUMER_KEY = "twitter.client_app.consumer.key";
+    private static final String CONSUMER_SECRET = "twitter.client_app.consumer.secret";
 
     private final Twitter twitter;
 
@@ -70,5 +71,23 @@ public class DaoModule extends AbstractModule {
       return twitter;
     }
 
+  }
+
+  public static class TweetsRepositoryProvider implements Provider<TweetsRepository> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TweetsRepositoryProvider.class);
+
+    private final InMemoryCachedTweetsRepository cachedRepository;
+
+    @Inject
+    public TweetsRepositoryProvider(Twitter4jRepository twitter4jRepository, Configuration configuration) {
+      this.cachedRepository = new InMemoryCachedTweetsRepository(twitter4jRepository, configuration);
+      LOGGER.info("Tweet caching will be performed by: {}", cachedRepository.getClass().getSimpleName());
+    }
+
+    @Override
+    public TweetsRepository get() {
+      return cachedRepository;
+    }
   }
 }
