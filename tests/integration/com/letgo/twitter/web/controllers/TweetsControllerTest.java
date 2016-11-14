@@ -1,5 +1,6 @@
 package com.letgo.twitter.web.controllers;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
@@ -11,10 +12,12 @@ import com.letgo.twitter.IntegrationTest;
 import com.letgo.twitter.core.api.models.Tweet;
 import com.letgo.twitter.core.api.services.FetchTweetsRequest;
 import com.letgo.twitter.core.api.services.TweetsFetcher;
+import com.letgo.twitter.core.api.services.exceptions.InvalidFetchingRequestException;
 import com.letgo.twitter.core.internal.models.TweetPojo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -88,5 +91,45 @@ public class TweetsControllerTest extends IntegrationTest {
     assertThat(request.getUsername(), equalTo(username));
     assertThat(request.getPageSize().isPresent(), equalTo(true));
     assertThat(request.getPageSize().get(), equalTo(pageSize));
+  }
+
+  @Test
+  public void testInvalidRequest() {
+    InvalidFetchingRequestException exception = new InvalidFetchingRequestException("Fake!", null, Sets.newHashSet());
+    when(tweetsFetcher.getTweetsByUser(any(FetchTweetsRequest.class)))
+        .thenReturn(
+            CompletableFuture.supplyAsync(()-> {
+              throw exception;
+            })
+        );
+
+    String username = RandomStringUtils.randomAlphabetic(5);
+    int pageSize = new Random().nextInt(100);
+    String uri = "/twitter/users/" + username + "/tweets?max_tweets=" + pageSize;
+    Result result = Helpers.route(app, Helpers.fakeRequest("GET", uri));
+    assertThat(result.status(), equalTo(400));
+
+    String payload = contentAsString(result);
+    assertThat(payload, containsString(exception.getLocalizedMessage()));
+  }
+
+  @Test
+  public void testServiceError() throws ParseException {
+    RuntimeException exception = new RuntimeException("uh-oh!");
+    when(tweetsFetcher.getTweetsByUser(any(FetchTweetsRequest.class)))
+        .thenReturn(
+            CompletableFuture.supplyAsync(()-> {
+              throw exception;
+            })
+        );
+
+    String username = RandomStringUtils.randomAlphabetic(5);
+    int pageSize = new Random().nextInt(100);
+    String uri = "/twitter/users/" + username + "/tweets?max_tweets=" + pageSize;
+    Result result = Helpers.route(app, Helpers.fakeRequest("GET", uri));
+    assertThat(result.status(), equalTo(500));
+
+    String payload = contentAsString(result);
+    assertThat(payload, containsString(exception.getLocalizedMessage()));
   }
 }

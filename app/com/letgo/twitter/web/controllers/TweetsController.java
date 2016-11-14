@@ -3,10 +3,12 @@ package com.letgo.twitter.web.controllers;
 import com.letgo.twitter.core.api.models.Tweet;
 import com.letgo.twitter.core.api.services.FetchTweetsRequest;
 import com.letgo.twitter.core.api.services.TweetsFetcher;
+import com.letgo.twitter.core.api.services.exceptions.InvalidFetchingRequestException;
 import com.letgo.twitter.web.dto.TweetDto;
 import com.letgo.twitter.web.dto.TweetsByUserDto;
 
 import com.google.inject.Inject;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -37,6 +39,14 @@ public class TweetsController extends Controller {
         .thenApply(dtoTweets -> {
           TweetsByUserDto response = new TweetsByUserDto(username, dtoTweets);
           return ok(Json.toJson(response));
+        })
+        .exceptionally(throwable -> {
+          // TODO: Make response JSON-friendly
+          Throwable rootCause = ExceptionUtils.getRootCause(throwable);
+          if (rootCause instanceof InvalidFetchingRequestException) {
+            return badRequest(rootCause.getLocalizedMessage());
+          }
+          return internalServerError(rootCause.getLocalizedMessage());
         });
   }
 

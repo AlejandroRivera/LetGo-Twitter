@@ -1,10 +1,15 @@
 package com.letgo.twitter.core.api.services;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
+
 import java.util.Optional;
 
 public class FetchTweetsRequest {
 
+  @NotEmpty
   private String username;
+  @Range(min = 1, max = 100)
   private Integer pageSize;
 
   public FetchTweetsRequest(String username) {
