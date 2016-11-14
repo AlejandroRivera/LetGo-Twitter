@@ -98,10 +98,9 @@ public class TweetsControllerTest extends IntegrationTest {
     InvalidFetchingRequestException exception = new InvalidFetchingRequestException("Fake!", null, Sets.newHashSet());
     when(tweetsFetcher.getTweetsByUser(any(FetchTweetsRequest.class)))
         .thenReturn(
-            CompletableFuture.supplyAsync(()-> {
+            CompletableFuture.supplyAsync(() -> {
               throw exception;
-            })
-        );
+            }));
 
     String username = RandomStringUtils.randomAlphabetic(5);
     int pageSize = new Random().nextInt(100);
@@ -118,10 +117,9 @@ public class TweetsControllerTest extends IntegrationTest {
     RuntimeException exception = new RuntimeException("uh-oh!");
     when(tweetsFetcher.getTweetsByUser(any(FetchTweetsRequest.class)))
         .thenReturn(
-            CompletableFuture.supplyAsync(()-> {
+            CompletableFuture.supplyAsync(() -> {
               throw exception;
-            })
-        );
+            }));
 
     String username = RandomStringUtils.randomAlphabetic(5);
     int pageSize = new Random().nextInt(100);
