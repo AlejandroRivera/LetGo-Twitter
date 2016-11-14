@@ -11,6 +11,24 @@ $ sbt clean jacoco:check it-jacoco:cover
 ```
 This will execute compilation, checkstyle, findbugs, tests, integration tests and code-coverage enforcement. 
 
+Then update the OAuth keys/secrets found in `conf/application.conf` with values you can create from:
+https://apps.twitter.com/
+
+```
+twitter {
+  client_app {
+    consumer {
+      key = "<...>"
+      secret = "<...>"
+    }
+    access_token {
+      token = "<...>"
+      secret = "<...>"
+    }
+  }
+}
+```
+
 To run the application in Dev mode (while allowing for re-loading of classes):
 ```
 $ sbt run
