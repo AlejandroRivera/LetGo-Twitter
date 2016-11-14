@@ -92,4 +92,5 @@ $ curl "http://localhost:9000/twitter/users/letgo/tweets?max_tweets=5"
 - [ ] Load test the application to fine-tune Play/Akka/Twitter4J/application settings.
 - [ ] Add distributed caching.
 - [ ] Enhance the configuration for the Jackson Object-Mapper.
+- [ ] Improve REST API (versioning, auth, rate-limitting, etc.)
 - [ ] ...
